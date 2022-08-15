@@ -1,3 +1,6 @@
+import { Item } from './classes/item'
+import { createTags } from './createTag';
+
 const root = document.querySelector('#root') as HTMLDivElement;
 const inputField= document.createElement('input');
 const submitButton = document.createElement('button');
@@ -21,62 +24,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if(itemList){
         itemList.forEach((items: Item) => {
             Item.addToAllItems(items);
-            createTags(items);
+            createTags(items, todoDiv);
         });
     }
 });
 
 submitButton.addEventListener('click', () => {
     const newTodo = new Item(inputField.value);
-    createTags(newTodo);
+    createTags(newTodo, todoDiv);
     inputField.value = '';
 });
-
-const createTags = (todoPar: Item) => {
-    const itemTag = document.createElement('p');
-    itemTag.innerHTML = todoPar.item;
-    todoDiv.prepend(itemTag);
-    
-    crossOut(itemTag, todoPar)
-    checker(itemTag, todoPar);
-}
-
-
-const checker = (motherElement: HTMLParagraphElement, todoPar: Item) =>{
-    const checkerButton = document.createElement('input');
-    checkerButton.type = 'checkbox';
-    motherElement.appendChild(checkerButton);
-    checkerButton.checked = todoPar.completed;
-
-    checkerButton.addEventListener('click', (e) => {
-         const checkbox = e.currentTarget as HTMLInputElement;
-         todoPar.completed =  checkbox.checked;
-         crossOut(motherElement, todoPar);
-    });
-};
-
-const crossOut = (paraGrapgh: HTMLParagraphElement, todo: Item) => {
-    if(todo.completed) {
-        paraGrapgh.setAttribute('style', 'text-decoration: line-through;');
-    } 
-    else{
-        paraGrapgh.setAttribute('style', 'text-decoration: none;');
-    }
-    localStorage.setItem('itemList', JSON.stringify(Item.allItems));
-} 
-
-class Item{
-    static allItems : Item[] = [];
-    completed: boolean;
-    item: string;
-
-    constructor(item: string){
-        this.item = item;
-        this.completed = false;
-        Item.addToAllItems(this);
-    };
-
-    static addToAllItems(item: Item){
-        return Item.allItems.push(item)
-    };
-}
