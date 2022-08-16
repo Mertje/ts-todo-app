@@ -12,8 +12,8 @@ export const createTags = (todoPar: Item, todoDiv: HTMLDivElement) => {
 const checker = (motherElement: HTMLParagraphElement, todoPar: Item) =>{
     const checkerButton = document.createElement('input');
     checkerButton.type = 'checkbox';
-    motherElement.appendChild(checkerButton);
     checkerButton.checked = todoPar.completed;
+    motherElement.appendChild(checkerButton);
 
     checkerButton.addEventListener('click', (e) => {
          const checkbox = e.currentTarget as HTMLInputElement;

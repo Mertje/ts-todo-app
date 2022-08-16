@@ -29,8 +29,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-submitButton.addEventListener('click', () => {
+submitButton.addEventListener('click', () => { 
+    startProcess()
+});
+inputField.addEventListener('keyup', (e) =>{
+    if(e.key === 'Enter') startProcess()
+});
+
+function startProcess(){
+    if(inputField.value === '') return
     const newTodo = new Item(inputField.value);
     createTags(newTodo, todoDiv);
     inputField.value = '';
-});
+}
+
+
